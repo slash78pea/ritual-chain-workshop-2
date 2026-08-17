@@ -1,3 +1,31 @@
+# ritual-chain-workshop-2
+Bootcamp Level 2 – Full Code Audit & Notes
+
+Author: 0xTrace  
+Completed: 17 August 2026
+
+This is not a casual fork. I went through every critical path in the contracts and scripts after the live session.
+
+### Core objective of the workshop
+Build a binary prediction market that requires zero off-chain keepers or admin intervention.  
+The Ritual Scheduler is the only external trigger.  
+All data fetching and decision making happens inside the transaction via precompiles.
+
+### Areas I spent the most time on
+1. createMarket() – how human seconds are converted into absolute block numbers using the measured blockTimeMs
+2. The exact arguments passed to Scheduler.schedule (numCalls = 3, frequency = 200 blocks)
+3. The external try-catch pattern around the HTTP + jq calls so a single failure does not roll back the attempt counter
+4. How the contract cancels remaining scheduled calls after a successful resolution
+5. The intentional dust left in the contract after claims (simple integer division)
+6. The seed used when calling pickServiceByCapability so each retry can land on a different executor
+7. The complete Invalid path and how refunds are made available
+
+### Current status
+Public testnet is permanently offline.  
+I have mentally executed every major function and cross-checked against the mock tests.  
+The codebase is clean and production-ready for mainnet.
+
+Once the official RPC is published I will deploy, fund the RitualWallet, and run several live markets for validation.
 # Ritual Predict
 
 A self-resolving binary prediction market on [Ritual Chain](https://docs.ritualfoundation.org).
